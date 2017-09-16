@@ -1,5 +1,3 @@
 package finaltagless.adt
 
-import java.util.UUID
-
-case class User(id: UUID, email: String, loyaltyPoints: Int)
+case class User(id: Long, username: String, email: String, loyaltyPoints: Int)
