@@ -1,12 +1,24 @@
-import Dependencies._
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
+import scalariform.formatter.preferences._
 
-lazy val root = (project in file(".")).
-  settings(
-    inThisBuild(List(
-      organization := "com.example",
-      scalaVersion := "2.12.2",
-      version      := "0.1.0-SNAPSHOT"
-    )),
-    name := "Tagless-final-blog",
-    libraryDependencies ++= Seq(slick, h2, scalaTest % Test)
-  )
+
+name := "taglesfinal-scalamde"
+
+version := "0.1.0"
+
+scalaVersion := "2.12.3"
+
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "3.0.1",
+  "com.typesafe.slick" %% "slick" % "3.2.0",
+  "com.h2database" % "h2" % "1.4.196",
+  "org.typelevel" %% "cats-core" % "1.0.0-MF"
+)
+
+val preferences =
+  ScalariformKeys.preferences := ScalariformKeys.preferences.value
+    .setPreference(AlignSingleLineCaseStatements, true)
+    .setPreference(DoubleIndentConstructorArguments, true)
+    .setPreference(DanglingCloseParenthesis, Preserve)
+
+Seq(preferences)
