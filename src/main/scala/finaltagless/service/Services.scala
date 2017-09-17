@@ -1,6 +1,6 @@
 package finaltagless.service
 
-import finaltagless.interpreter.UserFutureInterpreter
+import finaltagless.interpreter.{ UserDBInterpreter, UserFutureInterpreter }
 import finaltagless.service.user.UserServices
 import cats.data._
 import cats.implicits._
@@ -22,5 +22,11 @@ object Services extends App with BaseExecutionContext {
   }
 
   println(s"Este es el futuro -> ${addPoints()}")
+
+  val userService = new UserServices(new UserDBInterpreter)
+
+  val result = userService.addPoints(1, 10)
+
+  println(s"Este es la llamada a BD -> $result")
 
 }
