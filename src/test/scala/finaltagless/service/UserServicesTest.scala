@@ -10,7 +10,7 @@ import cats.implicits._
 
 import scala.concurrent.Future
 
-class ServicesTest extends BaseTest {
+class UserServicesTest extends BaseTest {
 
   "Validar implementacion" must {
 
