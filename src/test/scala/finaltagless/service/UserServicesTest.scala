@@ -1,16 +1,23 @@
 package finaltagless.service
 
 import finaltagless.BaseTest
-import finaltagless.interpreter.{ UserDBInterpreter, UserFutureInterpreter }
+import finaltagless.interpreter.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
 import finaltagless.service.user.UserServices
 import org.scalatest.Failed
-
 import cats.data._
 import cats.implicits._
+import finaltagless.infrastructure.MockServerProvider
 
 import scala.concurrent.Future
+import scala.util.{ Failure, Success }
 
 class UserServicesTest extends BaseTest {
+
+  val dataBaseInterpreter = new UserDBInterpreter
+
+  val futureInterpreter = new UserFutureInterpreter
+
+  val externalServiceInterpreter = new UserExternalInterpreter
 
   "Validar implementacion" must {
 
@@ -18,7 +25,7 @@ class UserServicesTest extends BaseTest {
 
       val user = Long.MaxValue
 
-      val loyal: UserServices[Future] = new UserServices(new UserFutureInterpreter)
+      val loyal: UserServices[Future] = new UserServices(futureInterpreter)
 
       whenReady(loyal.addPoints(user, 10)) { result =>
         result shouldEqual Left("User not found")
@@ -27,8 +34,6 @@ class UserServicesTest extends BaseTest {
     }
 
     "Encontrar el usuario al usar DBInterpreter" in {
-
-      val dataBaseInterpreter = new UserDBInterpreter
 
       val userService = new UserServices(dataBaseInterpreter)
 
@@ -46,8 +51,6 @@ class UserServicesTest extends BaseTest {
 
     "No encontrar el usuario al usar DBInterpreter" in {
 
-      val dataBaseInterpreter = new UserDBInterpreter
-
       val userService = new UserServices(dataBaseInterpreter)
 
       val result = userService.addPoints(11, 10)
@@ -58,6 +61,52 @@ class UserServicesTest extends BaseTest {
         case Right(_) =>
           Failed("El usuario 11 no deberia existir")
       }
+
+    }
+
+    "Adicionar puntos al usuario con ExternalServiceInterpreter" in {
+
+      val userService = new UserServices(externalServiceInterpreter)
+
+      val result = userService.addPoints(1, 10)
+      result match {
+        case Success(either) =>
+          either.right.get.loyaltyPoints shouldEqual 65
+        case _ =>
+          Failed("El usuario 11 no deberia existir")
+      }
+
+    }
+
+    "No encontrar el usuario al usar ExternalServiceInterpreter" in {
+
+      val userService = new UserServices(externalServiceInterpreter)
+
+      val result = userService.addPoints(11, 10)
+      result match {
+        case Success(either) =>
+          either shouldEqual Left("User not found")
+        case _ =>
+          Failed("El usuario 11 no deberia existir")
+      }
+
+    }
+
+    "Fallar comuniacion con servicio al apagar servicio mock" in {
+
+      MockServerProvider.shutDownServer()
+
+      val userService = new UserServices(externalServiceInterpreter)
+
+      val result = userService.addPoints(1, 10)
+      result match {
+        case Failure(e) =>
+          e shouldBe classOf[Exception]
+        case _ =>
+          Failed("No deberia haber comuniacion con servicio")
+      }
+
+      MockServerProvider.startServer()
 
     }
 
