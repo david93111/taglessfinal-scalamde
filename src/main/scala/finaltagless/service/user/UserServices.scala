@@ -20,18 +20,3 @@ class UserServices[F[_]: Monad](userAlgebra: UserAlgebra[F]) {
   }
 }
 
-/*class UserServicesOptionT[F[_]: Monad](userAlgebra: UserAlgebra[F]) extends (User ~> OptionT[F,User]){
-  type myOptionT[User] = OptionT[F,User]
-
-  def addPoints(userId: Long, pointsToAdd: Int): F[Either[String, User]] = {
-    OptionT[F,User]
-
-    userAlgebra.findUser(userId).flatMap {
-      case None => implicitly[Monad[F]].pure(Left("User not found"))
-      case Some(user) =>
-        val updated = user.copy(loyaltyPoints = user.loyaltyPoints + pointsToAdd)
-        userAlgebra.updateUser(updated).map(Right(_))
-    }
-  }
-}*/
-
