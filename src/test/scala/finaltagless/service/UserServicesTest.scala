@@ -27,9 +27,7 @@ class UserServicesTest extends BaseTest {
 
       val loyal: UserServices[Future] = new UserServices(futureInterpreter)
 
-      whenReady(loyal.addPoints(user, 10)) { result =>
-        result shouldEqual None
-      }
+      whenReady(loyal.addPoints(user, 10))(_ shouldBe None)
 
     }
 
@@ -87,7 +85,7 @@ class UserServicesTest extends BaseTest {
 
     }
 
-    "Fallar comuniacion con servicio al apagar servicio mock" in {
+    "Fallar comunicacion con servicio al apagar servicio mock ExternalServiceInterpreter" in {
 
       MockServerProvider.shutDownServer()
 
