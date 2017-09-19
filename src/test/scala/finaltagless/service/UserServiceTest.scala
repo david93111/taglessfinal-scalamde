@@ -1,7 +1,6 @@
 package finaltagless.service
 
 import finaltagless.BaseTest
-import finaltagless.interpreter.{ UserExternalInterpreter, UserFutureInterpreter }
 import finaltagless.service.user.UserService
 import org.scalatest.Failed
 import cats.data._

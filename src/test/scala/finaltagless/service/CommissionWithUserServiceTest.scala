@@ -1,7 +1,6 @@
 package finaltagless.service
 
 import finaltagless.BaseTest
-import finaltagless.interpreter._
 import cats.data._
 import cats.implicits._
 import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter }
@@ -28,11 +27,6 @@ class CommissionWithUserServiceTest extends BaseTest {
     "No encontrar el usuario al usar futureInterpreter" in {
       val service = new CommissionWithUserService(futureInterpreter, commissionFutureInterpreter)
       whenReady(service.addPointWithCommission(1, 25))(_ shouldBe None)
-    }
-
-    "Entregar la comision usando BDinterpreter" in {
-      val service = new CommissionWithUserService(dataBaseInterpreter, commissionFutureInterpreter)
-      whenReady(service.addPointWithCommission(1, 25))(_.get.loyaltyPoints shouldEqual 45)
     }
 
     "Entregar la comision usando ExternalInterpreter" in {
