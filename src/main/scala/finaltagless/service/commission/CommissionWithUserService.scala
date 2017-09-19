@@ -3,7 +3,7 @@ package finaltagless.service.commission
 import cats.Monad
 import cats.data.OptionT
 import finaltagless.adt.User
-import finaltagless.algebra.{CommissionAlgebra, UserAlgebra}
+import finaltagless.algebra.{ CommissionAlgebra, UserAlgebra }
 import finaltagless.utils.UserUtils
 
 class CommissionWithUserService[F[_]: Monad](userAlgebra: UserAlgebra[F], commissionAlgebra: CommissionAlgebra[F]) {

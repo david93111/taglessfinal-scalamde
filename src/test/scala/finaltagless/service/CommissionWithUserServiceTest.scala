@@ -4,8 +4,8 @@ import finaltagless.BaseTest
 import finaltagless.interpreter._
 import cats.data._
 import cats.implicits._
-import finaltagless.interpreter.commission.{CommissionExternalInterpreter, CommissionFutureInterpreter}
-import finaltagless.interpreter.user.{UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter}
+import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter }
+import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
 import finaltagless.service.commission.CommissionWithUserService
 import org.scalatest.Failed
 

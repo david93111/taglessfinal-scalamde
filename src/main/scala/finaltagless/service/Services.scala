@@ -4,11 +4,12 @@ import finaltagless.interpreter._
 import finaltagless.service.user.UserService
 import cats.data._
 import cats.implicits._
-import finaltagless.infrastructure.{BaseExecutionContext, MockServerProvider}
+import finaltagless.infrastructure.{ BaseExecutionContext, MockServerProvider }
 import finaltagless.infrastructure.persistence.DataBaseProvider
-import finaltagless.interpreter.commission.{CommissionExternalInterpreter, CommissionFutureInterpreter}
-import finaltagless.interpreter.user.{UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter}
+import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter }
+import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
 import finaltagless.service.commission.CommissionWithUserService
+import freestyletagless.ServicesFreeStyle
 
 import scala.concurrent.Future
 
@@ -43,5 +44,9 @@ object Services extends App with BaseExecutionContext {
   println(s"Este es la llamada al servicio externo commission -> $resultCommissionTry")
 
   MockServerProvider.shutDownServer()
+
+  val servicesFreeStyle = new ServicesFreeStyle
+  val resultFreeStlye = servicesFreeStyle.callTest()
+  println(s"Esta es una llamada a freeStyle -> $resultFreeStlye")
 
 }

@@ -1,21 +1,19 @@
-package finaltagless.service.user
+package freestyletagless.service.user
 
-import cats.{ Monad, ~> }
+import cats.Monad
 import cats.data.OptionT
-import cats.implicits._
-import finaltagless.adt.User
-import finaltagless.algebra.UserAlgebra
 import finaltagless.utils.UserUtils
+import freestyletagless.algebra.user.UserAlgebraFreeStyle
 
-class UserService[F[_]: Monad](userAlgebra: UserAlgebra[F]) {
+object UserServiceFreeStyle {
   import UserUtils._
 
-  def addPoints(userId: Long, pointsToAdd: Int): F[Option[User]] = {
+  def addPoints[F[_]: Monad](userId: Long, pointsToAdd: Int)(implicit userAlgebra: UserAlgebraFreeStyle[F]) = {
     val result = for {
       userFound <- OptionT(userAlgebra.findUser(userId))
       update <- OptionT.liftF(userAlgebra.updateUser(copyUser(userFound, pointsToAdd)))
     } yield update
     result.value
   }
-}
 
+}
