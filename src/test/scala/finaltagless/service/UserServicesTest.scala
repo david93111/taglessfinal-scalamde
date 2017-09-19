@@ -28,7 +28,7 @@ class UserServicesTest extends BaseTest {
       val loyal: UserServices[Future] = new UserServices(futureInterpreter)
 
       whenReady(loyal.addPoints(user, 10)) { result =>
-        result shouldEqual Left("User not found")
+        result shouldEqual None
       }
 
     }
@@ -40,9 +40,9 @@ class UserServicesTest extends BaseTest {
       val result = userService.addPoints(1, 10)
 
       whenReady(result) {
-        case Left(_) =>
+        case None =>
           Failed("El usuario no fue encontrado o no pudo ser actualizado")
-        case Right(user) =>
+        case Some(user) =>
           user.id shouldEqual 1
           user.loyaltyPoints shouldEqual 20
       }
@@ -55,12 +55,7 @@ class UserServicesTest extends BaseTest {
 
       val result = userService.addPoints(11, 10)
 
-      whenReady(result) {
-        case Left(message) =>
-          message shouldEqual "User not found"
-        case Right(_) =>
-          Failed("El usuario 11 no deberia existir")
-      }
+      whenReady(result)(_ shouldBe None)
 
     }
 
@@ -70,8 +65,8 @@ class UserServicesTest extends BaseTest {
 
       val result = userService.addPoints(1, 10)
       result match {
-        case Success(either) =>
-          either.right.get.loyaltyPoints shouldEqual 65
+        case Success(Some(user)) =>
+          user.loyaltyPoints shouldEqual 65
         case _ =>
           Failed("El usuario 11 no deberia existir")
       }
@@ -84,8 +79,8 @@ class UserServicesTest extends BaseTest {
 
       val result = userService.addPoints(11, 10)
       result match {
-        case Success(either) =>
-          either shouldEqual Left("User not found")
+        case Success(user) =>
+          user shouldBe None
         case _ =>
           Failed("El usuario 11 no deberia existir")
       }
