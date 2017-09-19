@@ -1,3 +1,3 @@
 package finaltagless.adt
 
-case class Commission(value: Int, forUser: Long, sourceUser: Long)
+case class Commission(value: Int, forUser: Long)

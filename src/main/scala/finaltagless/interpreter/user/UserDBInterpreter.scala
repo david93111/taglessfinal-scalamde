@@ -1,4 +1,4 @@
-package finaltagless.interpreter
+package finaltagless.interpreter.user
 
 import finaltagless.adt.User
 import finaltagless.algebra.UserAlgebra

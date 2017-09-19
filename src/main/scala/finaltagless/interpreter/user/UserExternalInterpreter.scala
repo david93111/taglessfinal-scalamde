@@ -1,4 +1,4 @@
-package finaltagless.interpreter
+package finaltagless.interpreter.user
 
 import finaltagless.adt.User
 import finaltagless.algebra.UserAlgebra
@@ -7,7 +7,7 @@ import finaltagless.infrastructure.services.Marshallers
 import play.api.libs.json.Json
 
 import scala.util.Try
-import scalaj.http.{ Http, HttpResponse }
+import scalaj.http.{Http, HttpResponse}
 
 class UserExternalInterpreter extends UserAlgebra[Try] with Marshallers {
 

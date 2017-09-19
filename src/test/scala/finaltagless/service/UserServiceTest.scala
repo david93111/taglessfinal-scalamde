@@ -1,15 +1,16 @@
 package finaltagless.service
 
 import finaltagless.BaseTest
-import finaltagless.interpreter.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
+import finaltagless.interpreter.{UserExternalInterpreter, UserFutureInterpreter}
 import finaltagless.service.user.UserService
 import org.scalatest.Failed
 import cats.data._
 import cats.implicits._
 import finaltagless.infrastructure.MockServerProvider
+import finaltagless.interpreter.user.{UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter}
 
 import scala.concurrent.Future
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 
 class UserServiceTest extends BaseTest {
 

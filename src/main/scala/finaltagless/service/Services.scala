@@ -1,11 +1,14 @@
 package finaltagless.service
 
 import finaltagless.interpreter._
-import finaltagless.service.user.{ UserService, UserWithCommissionService }
+import finaltagless.service.user.UserService
 import cats.data._
 import cats.implicits._
-import finaltagless.infrastructure.{ BaseExecutionContext, MockServerProvider }
+import finaltagless.infrastructure.{BaseExecutionContext, MockServerProvider}
 import finaltagless.infrastructure.persistence.DataBaseProvider
+import finaltagless.interpreter.commission.{CommissionExternalInterpreter, CommissionFutureInterpreter}
+import finaltagless.interpreter.user.{UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter}
+import finaltagless.service.commission.CommissionWithUserService
 
 import scala.concurrent.Future
 
@@ -30,12 +33,12 @@ object Services extends App with BaseExecutionContext {
   println(s"Este es la llamada al servicio externo -> $resultTry")
 
   val commissionFuture = new CommissionFutureInterpreter
-  val commissionService = new UserWithCommissionService(userBDInterpreter, commissionFuture)
+  val commissionService = new CommissionWithUserService(userBDInterpreter, commissionFuture)
   val resultCommissionFuture = commissionService.addPointWithCommission(1, 15)
   println(s"Este es la llamada al futuro commission-> $resultCommissionFuture")
 
   val commissionTry = new CommissionExternalInterpreter
-  val commissionServiceTry = new UserWithCommissionService(userTry, commissionTry)
+  val commissionServiceTry = new CommissionWithUserService(userTry, commissionTry)
   val resultCommissionTry = commissionServiceTry.addPointWithCommission(1, 15)
   println(s"Este es la llamada al servicio externo commission -> $resultCommissionTry")
 

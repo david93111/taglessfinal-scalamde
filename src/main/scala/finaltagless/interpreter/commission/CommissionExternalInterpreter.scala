@@ -1,4 +1,4 @@
-package finaltagless.interpreter
+package finaltagless.interpreter.commission
 
 import finaltagless.algebra.CommissionAlgebra
 

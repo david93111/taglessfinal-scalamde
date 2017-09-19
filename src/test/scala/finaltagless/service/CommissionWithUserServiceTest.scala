@@ -2,14 +2,16 @@ package finaltagless.service
 
 import finaltagless.BaseTest
 import finaltagless.interpreter._
-import finaltagless.service.user.UserWithCommissionService
 import cats.data._
 import cats.implicits._
+import finaltagless.interpreter.commission.{CommissionExternalInterpreter, CommissionFutureInterpreter}
+import finaltagless.interpreter.user.{UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter}
+import finaltagless.service.commission.CommissionWithUserService
 import org.scalatest.Failed
 
 import scala.util.Success
 
-class UserWithCommissionServiceTest extends BaseTest {
+class CommissionWithUserServiceTest extends BaseTest {
 
   val dataBaseInterpreter = new UserDBInterpreter
 
@@ -21,20 +23,20 @@ class UserWithCommissionServiceTest extends BaseTest {
 
   val commissionExternalInterpreter = new CommissionExternalInterpreter
 
-  "User and Commission Algebra and Service Test" must {
+  "Commission and User Algebra and Service Test" must {
 
     "No encontrar el usuario al usar futureInterpreter" in {
-      val service = new UserWithCommissionService(futureInterpreter, commissionFutureInterpreter)
+      val service = new CommissionWithUserService(futureInterpreter, commissionFutureInterpreter)
       whenReady(service.addPointWithCommission(1, 25))(_ shouldBe None)
     }
 
     "Entregar la comision usando BDinterpreter" in {
-      val service = new UserWithCommissionService(dataBaseInterpreter, commissionFutureInterpreter)
+      val service = new CommissionWithUserService(dataBaseInterpreter, commissionFutureInterpreter)
       whenReady(service.addPointWithCommission(1, 25))(_.get.loyaltyPoints shouldEqual 45)
     }
 
     "Entregar la comision usando ExternalInterpreter" in {
-      val service = new UserWithCommissionService(externalServiceInterpreter, commissionExternalInterpreter)
+      val service = new CommissionWithUserService(externalServiceInterpreter, commissionExternalInterpreter)
       service.addPointWithCommission(1, 25) match {
         case Success(Some(user)) =>
           user.loyaltyPoints shouldEqual 80

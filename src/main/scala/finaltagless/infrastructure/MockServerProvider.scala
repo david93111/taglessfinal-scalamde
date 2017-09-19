@@ -32,11 +32,11 @@ object MockServerProvider {
   def startServerAll(): Unit = {
     startServer()
 
-    stubFor(WireMock.get(WireMock.urlPathMatching("/users/find")).atPriority(2)
+    stubFor(WireMock.post(WireMock.urlPathMatching("/commissions/give")).atPriority(1)
       .willReturn(aResponse()
-        .withStatus(404)
+        .withStatus(200)
         .withHeader("Content-Type", "application/json")
-        .withBody("""{"message":"User not found"}""")))
+        .withBody("""{"value":"350","forUser":"99"}""")))
 
   }
 
