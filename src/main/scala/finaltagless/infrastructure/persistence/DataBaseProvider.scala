@@ -10,7 +10,7 @@ import scala.concurrent.duration.Duration
 object DataBaseProvider {
   import finaltagless.persistence.UsersTable._
 
-  def initDB() = {
+  def initDB = {
     val setup = DBIO.seq(
       usersTable.schema.create,
       usersTable ++= Seq(

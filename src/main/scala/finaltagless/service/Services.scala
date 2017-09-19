@@ -1,6 +1,5 @@
 package finaltagless.service
 
-import finaltagless.interpreter._
 import finaltagless.service.user.UserService
 import cats.data._
 import cats.implicits._
