@@ -15,7 +15,6 @@ class UserExternalInterpreter extends UserAlgebra[Try] with Marshallers {
 
   override def findUser(id: Long): Try[Option[User]] = Try {
     val response: HttpResponse[String] = Http(s"$host/users/find").param("id", s"$id").asString
-    println(s"service response -> ${response.body}")
     val json = Json.parse(response.body)
     val user = json.validate[User]
     user.asOpt
