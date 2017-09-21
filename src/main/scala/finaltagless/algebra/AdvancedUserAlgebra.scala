@@ -3,7 +3,7 @@ package finaltagless.algebra
 import cats.data.OptionT
 import finaltagless.adt.User
 
-abstract class AdvancedUserAlgebra[M[_]] extends Algebra[M] {
+trait AdvancedUserAlgebra[M[_]] {
 
   type optionTUser = OptionT[M, User]
 

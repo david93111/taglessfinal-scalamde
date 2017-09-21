@@ -1,6 +1,6 @@
 package finaltagless.algebra
 
-abstract class CommissionAlgebra[F[_]] extends Algebra[F] {
+trait CommissionAlgebra[F[_]] {
 
   def giveCommission(sourceUser: Long): F[Unit]
 
