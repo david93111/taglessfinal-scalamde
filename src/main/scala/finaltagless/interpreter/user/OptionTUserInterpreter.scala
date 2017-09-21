@@ -14,16 +14,16 @@ class OptionTUserInterpreter extends AdvancedUserAlgebra[Future] with BaseExecut
   override def findUser(id: Long): OptionT[Future, User] =
     OptionT.none[Future, User]
 
-  override def updateUser(u: User): OptionT[Future, User] =
+  override def updateUser(u: User): OptionT[Future, String] =
     // OptionT.fromOption[Future].apply(Option(u))
-    OptionT.some[Future, User](u)
+    OptionT.some[Future, String]("")
 }
 
 class OptionTUserInterpreterTry extends AdvancedUserAlgebra[Try] with BaseExecutionContext {
   override def findUser(id: Long): OptionT[Try, User] =
     OptionT.none[Try, User]
 
-  override def updateUser(u: User): OptionT[Try, User] =
+  override def updateUser(u: User): OptionT[Try, String] =
     // OptionT.fromOption[Future].apply(Option(u))
-    OptionT.some[Try, User](u)
+    OptionT.some[Try, String]("")
 }
