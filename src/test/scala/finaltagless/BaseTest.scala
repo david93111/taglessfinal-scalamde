@@ -14,6 +14,8 @@ trait BaseTest extends TestSuite with Matchers
   override def beforeAll(): Unit = {
     super.beforeAll()
     MockServerProvider.startServer()
+    DataBaseProvider.truncateData()
+    DataBaseProvider.insertData()
   }
 
   override def afterAll(): Unit = {

@@ -29,7 +29,7 @@ class UserServiceTest extends BaseTest {
       val user = Long.MaxValue
 
       val taskService = new UserService(futureInterpreter)
-      whenReady(taskService.addPoints(user, 10).runAsync.failed) { case _ => assert(true) }
+      whenReady(taskService.addPoints(user, 10).runAsync.failed) { _ => assert(true) }
 
     }
 

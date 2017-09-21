@@ -1,7 +1,6 @@
 package finaltagless.interpreter.commission
 
 import finaltagless.algebra.CommissionAlgebra
-import monix.eval.Task
 
 import scala.concurrent.Future
 
