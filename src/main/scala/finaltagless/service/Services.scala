@@ -6,7 +6,7 @@ import cats.implicits._
 import finaltagless.infrastructure.{ BaseExecutionContext, MockServerProvider }
 import finaltagless.infrastructure.persistence.DataBaseProvider
 import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter, CommissionTaskInterpreter }
-import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
+import finaltagless.interpreter.user.{ OptionTUserInterpreter, UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
 import finaltagless.service.commission.CommissionWithUserService
 import freestyletagless.ServicesFreeStyle
 import monix.cats._
@@ -47,5 +47,9 @@ object Services extends App with BaseExecutionContext {
   val servicesFreeStyle = new ServicesFreeStyle
   val resultFreeStlye = servicesFreeStyle.callTest()
   println(s"Esta es una llamada a freeStyle -> $resultFreeStlye")
+
+  val optionTinterpreter = new OptionTUserInterpreter
+  val optRes = optionTinterpreter.findUser(1)
+  println(s"Manejo de OptionInterpreter ${optRes.value}")
 
 }

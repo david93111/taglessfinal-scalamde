@@ -8,6 +8,7 @@ import finaltagless.algebra.AdvancedUserAlgebra
 import finaltagless.infrastructure.BaseExecutionContext
 
 import scala.concurrent.Future
+import scala.util.Try
 
 class OptionTUserInterpreter extends AdvancedUserAlgebra[Future] with BaseExecutionContext {
   override def findUser(id: Long): OptionT[Future, User] =
@@ -16,4 +17,13 @@ class OptionTUserInterpreter extends AdvancedUserAlgebra[Future] with BaseExecut
   override def updateUser(u: User): OptionT[Future, User] =
     // OptionT.fromOption[Future].apply(Option(u))
     OptionT.some[Future, User](u)
+}
+
+class OptionTUserInterpreterTry extends AdvancedUserAlgebra[Try] with BaseExecutionContext {
+  override def findUser(id: Long): OptionT[Try, User] =
+    OptionT.none[Try, User]
+
+  override def updateUser(u: User): OptionT[Try, User] =
+    // OptionT.fromOption[Future].apply(Option(u))
+    OptionT.some[Try, User](u)
 }
