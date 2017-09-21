@@ -3,8 +3,6 @@ package finaltagless.algebra
 import cats.data.OptionT
 import finaltagless.adt.User
 
-import scala.concurrent.Future
-
 trait AdvancedUserAlgebra[M[_]] {
 
   type optionTUser[T] = OptionT[M, T]
