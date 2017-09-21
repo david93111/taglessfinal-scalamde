@@ -5,12 +5,11 @@ import cats.data._
 import cats.implicits._
 import finaltagless.infrastructure.{ BaseExecutionContext, MockServerProvider }
 import finaltagless.infrastructure.persistence.DataBaseProvider
-import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter }
-import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
+import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter, CommissionTaskInterpreter }
+import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
 import finaltagless.service.commission.CommissionWithUserService
 import freestyletagless.ServicesFreeStyle
-
-import scala.concurrent.Future
+import monix.cats._
 
 object Services extends App with BaseExecutionContext {
 
@@ -19,8 +18,9 @@ object Services extends App with BaseExecutionContext {
 
   val user = Long.MaxValue
 
-  val loyal: UserService[Future] = new UserService(new UserFutureInterpreter)
-  println(s"Este es el futuro -> ${loyal.addPoints(user, 10)}")
+  val userTaskService = new UserService(new UserTaskInterpreter)
+  val resultTask = userTaskService.addPoints(user, 10)
+  println(s"Esta es una Task(User) -> $resultTask")
 
   val userBDInterpreter = new UserDBInterpreter
   val userService = new UserService(userBDInterpreter)

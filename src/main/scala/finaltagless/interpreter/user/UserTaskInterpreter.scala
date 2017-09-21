@@ -1,0 +1,15 @@
+package finaltagless.interpreter.user
+
+import finaltagless.exceptions.NotFoundException
+import finaltagless.adt.User
+import finaltagless.algebra.UserAlgebra
+import monix.eval.Task
+
+class UserTaskInterpreter extends UserAlgebra[Task] {
+
+  override def findUser(id: Long): Task[User] =
+    Task.raiseError(new NotFoundException)
+
+  override def updateUser(u: User): Task[User] =
+    Task(u)
+}

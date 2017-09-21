@@ -10,12 +10,11 @@ import finaltagless.utils.UserUtils
 class UserService[F[_]: Monad](userAlgebra: UserAlgebra[F]) {
   import UserUtils._
 
-  def addPoints(userId: Long, pointsToAdd: Int): F[Option[User]] = {
-    val result = for {
-      userFound <- OptionT(userAlgebra.findUser(userId))
-      update <- OptionT.liftF(userAlgebra.updateUser(copyUser(userFound, pointsToAdd)))
+  def addPoints(userId: Long, pointsToAdd: Int): F[User] = {
+    for {
+      userFound <- userAlgebra.findUser(userId)
+      update <- userAlgebra.updateUser(copyUser(userFound, pointsToAdd))
     } yield update
-    result.value
   }
 }
 

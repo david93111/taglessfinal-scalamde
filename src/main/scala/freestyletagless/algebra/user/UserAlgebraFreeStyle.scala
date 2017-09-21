@@ -9,7 +9,7 @@ import freestyle.tagless._
 
 @tagless trait UserAlgebraFreeStyle {
 
-  def findUser(id: Long): FS[Option[User]]
+  def findUser(id: Long): FS[User]
   def updateUser(u: User): FS[User]
 
 }
