@@ -52,9 +52,7 @@ class UserServiceTest extends BaseTest {
 
       val result: Future[User] = userService.addPoints(11, 10)
 
-      whenReady(result.failed) {
-        case e: Exception => assert(true)
-      }
+      whenReady(result.failed) { _ => assert(true) }
 
     }
 

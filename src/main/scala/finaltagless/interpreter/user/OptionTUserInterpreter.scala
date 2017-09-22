@@ -16,7 +16,7 @@ class OptionTUserInterpreter extends AdvancedUserAlgebra[Future] with BaseExecut
 
   override def updateUser(u: User): OptionT[Future, String] =
     // OptionT.fromOption[Future].apply(Option(u))
-    OptionT.some[Future, String]{
+    OptionT.some[Future, String] {
       ""
     }
 }
