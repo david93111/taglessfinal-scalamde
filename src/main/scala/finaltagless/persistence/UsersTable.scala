@@ -1,6 +1,6 @@
 package finaltagless.persistence
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 import slick.jdbc.H2Profile.api._
 import slick.lifted.ProvenShape
 

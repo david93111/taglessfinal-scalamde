@@ -1,6 +1,6 @@
 package finaltagless.infrastructure.persistence
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 import slick.jdbc.H2Profile
 import slick.jdbc.H2Profile.api._
 

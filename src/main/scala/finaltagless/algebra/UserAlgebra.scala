@@ -1,6 +1,6 @@
 package finaltagless.algebra
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 
 trait UserAlgebra[F[_]] {
 

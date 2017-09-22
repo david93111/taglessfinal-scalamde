@@ -3,7 +3,7 @@ package finaltagless.service.user
 import cats.{ Monad, ~> }
 import cats.data.OptionT
 import cats.implicits._
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.algebra.UserAlgebra
 import finaltagless.utils.UserUtils
 

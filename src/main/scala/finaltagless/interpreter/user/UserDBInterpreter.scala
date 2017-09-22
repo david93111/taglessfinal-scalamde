@@ -1,6 +1,6 @@
 package finaltagless.interpreter.user
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.algebra.UserAlgebra
 import finaltagless.infrastructure.BaseExecutionContext
 import finaltagless.infrastructure.persistence.DataBaseProvider

@@ -2,7 +2,7 @@ package freestyletagless.service.user
 
 import cats.Monad
 import cats.implicits._
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.utils.UserUtils
 import freestyletagless.algebra.user.UserAlgebraFreeStyle
 

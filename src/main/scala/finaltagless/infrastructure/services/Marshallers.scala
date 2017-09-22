@@ -1,6 +1,6 @@
 package finaltagless.infrastructure.services
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 import play.api.libs.json.{ Json, Reads, Writes }
 
 trait Marshallers {

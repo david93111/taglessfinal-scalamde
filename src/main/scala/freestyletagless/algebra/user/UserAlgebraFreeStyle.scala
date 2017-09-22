@@ -1,6 +1,6 @@
 package freestyletagless.algebra.user
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 
 import cats._
 import cats.implicits._

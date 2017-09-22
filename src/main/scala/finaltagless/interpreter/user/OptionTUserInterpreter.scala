@@ -3,7 +3,7 @@ package finaltagless.interpreter.user
 import cats.data.OptionT
 import cats.data._
 import cats.implicits._
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.algebra.AdvancedUserAlgebra
 import finaltagless.infrastructure.BaseExecutionContext
 

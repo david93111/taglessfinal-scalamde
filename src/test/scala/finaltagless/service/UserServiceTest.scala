@@ -6,7 +6,7 @@ import org.scalatest.Failed
 import cats.data._
 import cats.implicits._
 import monix.cats._
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.infrastructure.MockServerProvider
 import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
 

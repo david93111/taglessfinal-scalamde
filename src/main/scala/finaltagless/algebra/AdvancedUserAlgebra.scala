@@ -1,7 +1,7 @@
 package finaltagless.algebra
 
 import cats.data.OptionT
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.infrastructure.BaseExecutionContext
 import cats.data._
 import cats.implicits._

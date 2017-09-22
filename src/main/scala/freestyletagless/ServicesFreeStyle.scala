@@ -3,7 +3,7 @@ package freestyletagless
 import scala.concurrent.Future
 import cats._
 import cats.implicits._
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.exceptions.NotFoundException
 import finaltagless.infrastructure.BaseExecutionContext
 import freestyle.tagless._

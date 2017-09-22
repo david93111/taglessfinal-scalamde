@@ -2,7 +2,7 @@ package finaltagless.service.commission
 
 import cats.Monad
 import cats.implicits._
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.algebra.{ CommissionAlgebra, UserAlgebra }
 import finaltagless.utils.UserUtils
 
