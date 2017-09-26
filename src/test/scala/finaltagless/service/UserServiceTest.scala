@@ -9,6 +9,7 @@ import monix.cats._
 import finaltagless.domain.User
 import finaltagless.infrastructure.MockServerProvider
 import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
+import monix.eval.Task
 
 import scala.concurrent.Future
 import scala.util.{ Failure, Success, Try }
@@ -26,10 +27,10 @@ class UserServiceTest extends BaseTest {
     "No encontrar el usuario al usar FutureInterpreter" in {
       import monix.execution.Scheduler.Implicits.global
 
-      val user = Long.MaxValue
+      val taskService: UserService[Task] = new UserService(futureInterpreter)
+      val task: Task[User] = taskService.addPoints(1, 10)
 
-      val taskService = new UserService(futureInterpreter)
-      whenReady(taskService.addPoints(user, 10).runAsync.failed) { _ => assert(true) }
+      whenReady(task.runAsync.failed) { _ => assert(true) }
 
     }
 
@@ -74,12 +75,12 @@ class UserServiceTest extends BaseTest {
 
       val userService = new UserService(externalServiceInterpreter)
 
-      val result = userService.addPoints(11, 10)
+      val result: Try[User] = userService.addPoints(11, 10)
       result match {
         case Success(user) =>
-          user shouldBe None
-        case _ =>
           Failed("El usuario 11 no deberia existir")
+        case _ =>
+          assert(true)
       }
 
     }

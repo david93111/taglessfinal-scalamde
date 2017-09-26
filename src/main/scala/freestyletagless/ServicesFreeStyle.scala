@@ -3,29 +3,29 @@ package freestyletagless
 import scala.concurrent.Future
 import cats._
 import cats.implicits._
-import finaltagless.domain.User
-import finaltagless.exceptions.NotFoundException
 import finaltagless.infrastructure.BaseExecutionContext
 import freestyle.tagless._
-import freestyletagless.algebra.user.UserAlgebraFreeStyle
+import monix.cats._
+import freestyletagless.interpreter.user.{ FutureInterpreter, TaskInterpreter, TryInterpreter }
 import freestyletagless.service.user.UserServiceFreeStyle
+import monix.eval.Task
 
-class ServicesFreeStyle extends BaseExecutionContext {
+import scala.util.Try
 
-  implicit val userHanlder = new UserAlgebraFreeStyle.Handler[Future] {
+class ServicesFreeStyle extends BaseExecutionContext with FutureInterpreter with TaskInterpreter with TryInterpreter {
 
-    override def findUser(id: Long): Future[User] = {
-      Future.failed(new NotFoundException)
-    }
-
-    override def updateUser(u: User): Future[User] = {
-      Future.successful(u)
-    }
-
+  def callFuture() = {
+    UserServiceFreeStyle.addPoints[Future](1, 10)
   }
 
-  def callTest() = {
-    UserServiceFreeStyle.addPoints[Future](1, 10)
+  def callTry() = {
+    UserServiceFreeStyle.addPoints[Try](1, 10)
+  }
+
+  def callTask() = {
+    import monix.execution.Scheduler.Implicits.global
+    val task = UserServiceFreeStyle.addPoints[Task](1, 10)
+    task.runAsync
   }
 
 }
