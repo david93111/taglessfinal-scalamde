@@ -47,10 +47,10 @@ object Services extends App with BaseExecutionContext {
   val resultCommissionTry = commissionServiceTry.addPointWithCommission(1, 15)
   println(s"Este es la llamada al servicio externo commission -> $resultCommissionTry")
 
-  MockServerProvider.shutDownServer()
-
   val servicesFreeStyle = new ServicesFreeStyle
   val resultFreeStlye = servicesFreeStyle.callFuture()
   println(s"Esta es una llamada a freeStyle -> $resultFreeStlye")
+
+  MockServerProvider.shutDownServer()
 
 }

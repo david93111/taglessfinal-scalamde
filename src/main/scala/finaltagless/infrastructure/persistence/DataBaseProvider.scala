@@ -36,7 +36,7 @@ object DataBaseProvider {
     Await.result(db.run(setup), Duration.Inf)
   }
 
-  val db: H2Profile.backend.Database = Database.forConfig("app.h2")
+  val db: H2Profile.backend.Database = Database.forConfig("app.databases.h2")
 
   Await.result(initDB, Duration.Inf)
   insertData
