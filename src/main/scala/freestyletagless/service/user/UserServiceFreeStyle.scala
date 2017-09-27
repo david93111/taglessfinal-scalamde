@@ -10,7 +10,6 @@ object UserServiceFreeStyle {
   import UserUtils._
 
   def addPoints[F[_]: Monad](userId: Long, pointsToAdd: Int)(implicit userAlgebra: UserAlgebraFreeStyle[F]): F[User] = {
-    // val find = userAlgebra.findUser(userId)
     for {
       userFound <- userAlgebra.findUser(userId)
       update <- userAlgebra.updateUser(copyUser(userFound, pointsToAdd))

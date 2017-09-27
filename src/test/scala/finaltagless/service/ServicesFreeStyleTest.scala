@@ -14,7 +14,7 @@ import org.scalatest.Failed
 import scala.concurrent.Future
 import scala.util.{ Success, Try }
 
-class ServciesFreeStyleTest extends BaseTest with FutureInterpreter with TryInterpreter with TaskInterpreter {
+class ServicesFreeStyleTest extends BaseTest with FutureInterpreter with TryInterpreter with TaskInterpreter {
 
   import UserServiceFreeStyle._
 
