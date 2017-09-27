@@ -3,39 +3,54 @@ package finaltagless.service
 import finaltagless.BaseTest
 import cats.data._
 import cats.implicits._
-import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter }
-import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
+import finaltagless.domain.User
+import monix.cats._
+import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter, CommissionTaskInterpreter }
+import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
 import finaltagless.service.commission.CommissionWithUserService
+import monix.eval.Task
+import monix.execution.CancelableFuture
 import org.scalatest.Failed
 
+import scala.concurrent.Future
 import scala.util.Success
 
 class CommissionWithUserServiceTest extends BaseTest {
 
   val dataBaseInterpreter = new UserDBInterpreter
 
-  val futureInterpreter = new UserFutureInterpreter
+  val taskUserInterpreter = new UserTaskInterpreter
 
   val externalServiceInterpreter = new UserExternalInterpreter
 
-  val commissionFutureInterpreter = new CommissionFutureInterpreter
+  val commissionFutureinterpreter = new CommissionFutureInterpreter
+
+  val commissionTaskinterpreter = new CommissionTaskInterpreter
 
   val commissionExternalInterpreter = new CommissionExternalInterpreter
 
   "Commission and User Algebra and Service Test" must {
 
     "No encontrar el usuario al usar futureInterpreter" in {
-      val service = new CommissionWithUserService(futureInterpreter, commissionFutureInterpreter)
-      whenReady(service.addPointWithCommission(1, 25))(_ shouldBe None)
+      import monix.execution.Scheduler.Implicits.global
+
+      val service: CommissionWithUserService[Task] = new CommissionWithUserService(taskUserInterpreter, commissionTaskinterpreter)
+      val taskResult: CancelableFuture[User] = service.addPointWithCommission(1, 25).runAsync
+      whenReady(taskResult.failed) { _ => assert(true) }
+    }
+
+    "Entregar la comision usando BDinterpreter" in {
+      val service: CommissionWithUserService[Future] = new CommissionWithUserService(dataBaseInterpreter, commissionFutureinterpreter)
+      whenReady(service.addPointWithCommission(1, 25))(_.loyaltyPoints shouldEqual 35)
     }
 
     "Entregar la comision usando ExternalInterpreter" in {
       val service = new CommissionWithUserService(externalServiceInterpreter, commissionExternalInterpreter)
       service.addPointWithCommission(1, 25) match {
-        case Success(Some(user)) =>
+        case Success(user) =>
           user.loyaltyPoints shouldEqual 80
         case _ =>
-          Failed("No se pudo otorgar los puntos")
+          Failed("No se pudo otorgar la comision")
       }
     }
 

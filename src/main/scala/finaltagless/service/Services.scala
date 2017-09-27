@@ -3,12 +3,15 @@ package finaltagless.service
 import finaltagless.service.user.UserService
 import cats.data._
 import cats.implicits._
+import finaltagless.domain.User
 import finaltagless.infrastructure.{ BaseExecutionContext, MockServerProvider }
 import finaltagless.infrastructure.persistence.DataBaseProvider
-import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter }
-import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserFutureInterpreter }
+import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter, CommissionTaskInterpreter }
+import finaltagless.interpreter.user.{ OptionTUserInterpreter, UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
 import finaltagless.service.commission.CommissionWithUserService
 import freestyletagless.ServicesFreeStyle
+import monix.cats._
+import monix.eval.Task
 
 import scala.concurrent.Future
 
@@ -19,12 +22,14 @@ object Services extends App with BaseExecutionContext {
 
   val user = Long.MaxValue
 
-  val loyal: UserService[Future] = new UserService(new UserFutureInterpreter)
-  println(s"Este es el futuro -> ${loyal.addPoints(user, 10)}")
+  val userTaskInterpreter: UserTaskInterpreter = new UserTaskInterpreter
+  val userTaskService: UserService[Task] = new UserService(userTaskInterpreter)
+  val resultTask: Task[User] = userTaskService.addPoints(1, 10)
+  println(s"Esta es una Task(User) -> $resultTask")
 
-  val userBDInterpreter = new UserDBInterpreter
-  val userService = new UserService(userBDInterpreter)
-  val result = userService.addPoints(1, 10)
+  val userBDInterpreter: UserDBInterpreter = new UserDBInterpreter
+  val userService: UserService[Future] = new UserService(userBDInterpreter)
+  val result: Future[User] = userService.addPoints(1, 10)
   println(s"Este es la llamada a BD -> $result")
 
   val userTry = new UserExternalInterpreter
@@ -42,10 +47,10 @@ object Services extends App with BaseExecutionContext {
   val resultCommissionTry = commissionServiceTry.addPointWithCommission(1, 15)
   println(s"Este es la llamada al servicio externo commission -> $resultCommissionTry")
 
-  MockServerProvider.shutDownServer()
-
   val servicesFreeStyle = new ServicesFreeStyle
-  val resultFreeStlye = servicesFreeStyle.callTest()
+  val resultFreeStlye = servicesFreeStyle.callFuture()
   println(s"Esta es una llamada a freeStyle -> $resultFreeStlye")
+
+  MockServerProvider.shutDownServer()
 
 }

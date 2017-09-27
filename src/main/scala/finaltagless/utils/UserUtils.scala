@@ -1,6 +1,6 @@
 package finaltagless.utils
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 
 object UserUtils {
 

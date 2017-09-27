@@ -1,6 +1,6 @@
 package finaltagless.interpreter.user
 
-import finaltagless.adt.User
+import finaltagless.domain.User
 import finaltagless.algebra.UserAlgebra
 import finaltagless.infrastructure.BaseExecutionContext
 import finaltagless.infrastructure.persistence.DataBaseProvider
@@ -13,14 +13,14 @@ class UserDBInterpreter extends UserAlgebra[Future] with BaseExecutionContext {
   import DataBaseProvider._
   import finaltagless.persistence.UsersTable._
 
-  override def findUser(id: Long): Future[Option[User]] = {
+  override def findUser(id: Long): Future[User] = {
 
     val query = for {
       result <- usersTable filter (_.id === id)
     } yield result
 
     db.run(query.result).map(future =>
-      future.headOption
+      future.head
     )
   }
 
