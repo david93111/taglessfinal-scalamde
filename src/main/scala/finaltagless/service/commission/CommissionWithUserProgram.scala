@@ -6,7 +6,7 @@ import finaltagless.domain.User
 import finaltagless.algebra.{ CommissionAlgebra, UserAlgebra }
 import finaltagless.utils.UserUtils
 
-class CommissionWithUserService[F[_]: Monad](userAlgebra: UserAlgebra[F], commissionAlgebra: CommissionAlgebra[F]) {
+class CommissionWithUserProgram[F[_]: Monad](userAlgebra: UserAlgebra[F], commissionAlgebra: CommissionAlgebra[F]) {
 
   import UserUtils._
 

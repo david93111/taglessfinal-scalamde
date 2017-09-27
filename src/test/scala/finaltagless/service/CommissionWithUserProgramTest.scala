@@ -7,7 +7,7 @@ import finaltagless.domain.User
 import monix.cats._
 import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter, CommissionTaskInterpreter }
 import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
-import finaltagless.service.commission.CommissionWithUserService
+import finaltagless.service.commission.CommissionWithUserProgram
 import monix.eval.Task
 import monix.execution.CancelableFuture
 import org.scalatest.Failed
@@ -34,18 +34,18 @@ class CommissionWithUserProgramTest extends BaseTest {
     "No encontrar el usuario al usar futureInterpreter" in {
       import monix.execution.Scheduler.Implicits.global
 
-      val service: CommissionWithUserService[Task] = new CommissionWithUserService(taskUserInterpreter, commissionTaskinterpreter)
+      val service: CommissionWithUserProgram[Task] = new CommissionWithUserProgram(taskUserInterpreter, commissionTaskinterpreter)
       val taskResult: CancelableFuture[User] = service.addPointWithCommission(1, 25).runAsync
       whenReady(taskResult.failed) { _ => assert(true) }
     }
 
     "Entregar la comision usando BDinterpreter" in {
-      val service: CommissionWithUserService[Future] = new CommissionWithUserService(dataBaseInterpreter, commissionFutureinterpreter)
+      val service: CommissionWithUserProgram[Future] = new CommissionWithUserProgram(dataBaseInterpreter, commissionFutureinterpreter)
       whenReady(service.addPointWithCommission(1, 25))(_.loyaltyPoints shouldEqual 35)
     }
 
     "Entregar la comision usando ExternalInterpreter" in {
-      val service = new CommissionWithUserService(externalServiceInterpreter, commissionExternalInterpreter)
+      val service = new CommissionWithUserProgram(externalServiceInterpreter, commissionExternalInterpreter)
       service.addPointWithCommission(1, 25) match {
         case Success(user) =>
           user.loyaltyPoints shouldEqual 80

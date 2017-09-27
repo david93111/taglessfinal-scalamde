@@ -8,7 +8,7 @@ import finaltagless.infrastructure.{ BaseExecutionContext, MockServerProvider }
 import finaltagless.infrastructure.persistence.DataBaseProvider
 import finaltagless.interpreter.commission.{ CommissionExternalInterpreter, CommissionFutureInterpreter, CommissionTaskInterpreter }
 import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
-import finaltagless.service.commission.CommissionWithUserService
+import finaltagless.service.commission.CommissionWithUserProgram
 import freestyletagless.ServicesFreeStyle
 import monix.cats._
 import monix.eval.Task
@@ -38,12 +38,12 @@ object Services extends App with BaseExecutionContext {
   println(s"Este es la llamada al servicio externo -> $resultTry")
 
   val commissionFuture = new CommissionFutureInterpreter
-  val commissionService = new CommissionWithUserService(userBDInterpreter, commissionFuture)
+  val commissionService = new CommissionWithUserProgram(userBDInterpreter, commissionFuture)
   val resultCommissionFuture = commissionService.addPointWithCommission(1, 15)
   println(s"Este es la llamada al futuro commission-> $resultCommissionFuture")
 
   val commissionTry = new CommissionExternalInterpreter
-  val commissionServiceTry = new CommissionWithUserService(userTry, commissionTry)
+  val commissionServiceTry = new CommissionWithUserProgram(userTry, commissionTry)
   val resultCommissionTry = commissionServiceTry.addPointWithCommission(1, 15)
   println(s"Este es la llamada al servicio externo commission -> $resultCommissionTry")
 
