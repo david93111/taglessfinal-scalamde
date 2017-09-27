@@ -15,7 +15,7 @@ import org.scalatest.Failed
 import scala.concurrent.Future
 import scala.util.Success
 
-class CommissionWithUserServiceTest extends BaseTest {
+class CommissionWithUserProgramTest extends BaseTest {
 
   val dataBaseInterpreter = new UserDBInterpreter
 

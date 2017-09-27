@@ -7,7 +7,9 @@ import finaltagless.domain.User
 import finaltagless.algebra.UserAlgebra
 import finaltagless.utils.UserUtils
 
-class UserService[F[_]: Monad](userAlgebra: UserAlgebra[F]) {
+import scala.concurrent.Future
+
+class UserProgram[F[_]: Monad](userAlgebra: UserAlgebra[F]) /*(implicit m: Monad[F])*/ {
   import UserUtils._
 
   def addPoints(userId: Long, pointsToAdd: Int): F[User] = {

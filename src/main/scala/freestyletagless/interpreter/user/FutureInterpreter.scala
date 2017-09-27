@@ -8,7 +8,11 @@ import scala.concurrent.Future
 
 trait FutureInterpreter {
 
-  implicit val userFutureHanlder = new UserAlgebraFreeStyle.Handler[Future] {
+  implicit val userFutureHanlder: UserAlgebraFreeStyle.Handler[Future] {
+    def updateUser(u: User): Future[User]
+
+    def findUser(id: Long): Future[User]
+  } = new UserAlgebraFreeStyle.Handler[Future] {
 
     override def findUser(id: Long): Future[User] = {
       Future.failed(new NotFoundException)

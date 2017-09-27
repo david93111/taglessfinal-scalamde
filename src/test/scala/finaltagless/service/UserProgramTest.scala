@@ -1,7 +1,7 @@
 package finaltagless.service
 
 import finaltagless.BaseTest
-import finaltagless.service.user.UserService
+import finaltagless.service.user.UserProgram
 import org.scalatest.Failed
 import cats.data._
 import cats.implicits._
@@ -14,7 +14,7 @@ import monix.eval.Task
 import scala.concurrent.Future
 import scala.util.{ Failure, Success, Try }
 
-class UserServiceTest extends BaseTest {
+class UserProgramTest extends BaseTest {
 
   val dataBaseInterpreter = new UserDBInterpreter
 
@@ -27,7 +27,7 @@ class UserServiceTest extends BaseTest {
     "No encontrar el usuario al usar FutureInterpreter" in {
       import monix.execution.Scheduler.Implicits.global
 
-      val taskService: UserService[Task] = new UserService(futureInterpreter)
+      val taskService: UserProgram[Task] = new UserProgram(futureInterpreter)
       val task: Task[User] = taskService.addPoints(1, 10)
 
       whenReady(task.runAsync.failed) { _ => assert(true) }
@@ -36,7 +36,7 @@ class UserServiceTest extends BaseTest {
 
     "Encontrar el usuario al usar DBInterpreter" in {
 
-      val userService = new UserService(dataBaseInterpreter)
+      val userService = new UserProgram(dataBaseInterpreter)
 
       val result: Future[User] = userService.addPoints(1, 10)
 
@@ -49,7 +49,7 @@ class UserServiceTest extends BaseTest {
 
     "No encontrar el usuario al usar DBInterpreter" in {
 
-      val userService = new UserService(dataBaseInterpreter)
+      val userService = new UserProgram(dataBaseInterpreter)
 
       val result: Future[User] = userService.addPoints(11, 10)
 
@@ -59,7 +59,7 @@ class UserServiceTest extends BaseTest {
 
     "Adicionar puntos al usuario con ExternalServiceInterpreter" in {
 
-      val userService = new UserService(externalServiceInterpreter)
+      val userService = new UserProgram(externalServiceInterpreter)
 
       val result: Try[User] = userService.addPoints(1, 10)
       result match {
@@ -73,7 +73,7 @@ class UserServiceTest extends BaseTest {
 
     "No encontrar el usuario al usar ExternalServiceInterpreter" in {
 
-      val userService = new UserService(externalServiceInterpreter)
+      val userService = new UserProgram(externalServiceInterpreter)
 
       val result: Try[User] = userService.addPoints(11, 10)
       result match {
@@ -89,7 +89,7 @@ class UserServiceTest extends BaseTest {
 
       MockServerProvider.shutDownServer()
 
-      val userService = new UserService(externalServiceInterpreter)
+      val userService = new UserProgram(externalServiceInterpreter)
 
       val result = userService.addPoints(1, 10)
       result match {

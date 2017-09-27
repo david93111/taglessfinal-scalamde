@@ -20,8 +20,8 @@ class UserExternalInterpreter extends UserAlgebra[Try] with Marshallers {
     user.get
   }
 
-  override def updateUser(u: User): Try[User] = Try {
-    u
+  override def updateUser(u: User): Try[User] = {
+    Try(u)
   }
 
 }
