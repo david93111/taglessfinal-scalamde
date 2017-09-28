@@ -7,7 +7,6 @@ import cats.data._
 import cats.implicits._
 import monix.cats._
 import finaltagless.domain.User
-import finaltagless.infrastructure.MockServerProvider
 import finaltagless.interpreter.user.{ UserDBInterpreter, UserExternalInterpreter, UserTaskInterpreter }
 import monix.eval.Task
 
@@ -82,24 +81,6 @@ class UserProgramTest extends BaseTest {
         case _ =>
           assert(true)
       }
-
-    }
-
-    "Fallar comunicacion con servicio al apagar servicio mock ExternalServiceInterpreter" in {
-
-      MockServerProvider.shutDownServer()
-
-      val userService = new UserProgram(externalServiceInterpreter)
-
-      val result = userService.addPoints(1, 10)
-      result match {
-        case Failure(e) =>
-          assert(true)
-        case _ =>
-          Failed("No deberia haber comuniacion con servicio")
-      }
-
-      MockServerProvider.startServer()
 
     }
 

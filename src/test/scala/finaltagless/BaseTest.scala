@@ -10,10 +10,10 @@ trait BaseTest extends TestSuite with Matchers
   with BaseExecutionContext {
 
   DataBaseProvider
+  MockServerProvider
 
   override def beforeAll(): Unit = {
     super.beforeAll()
-    MockServerProvider.startServer()
     DataBaseProvider.truncateData()
     DataBaseProvider.insertData()
   }

@@ -18,7 +18,7 @@ import scala.concurrent.Future
 object Services extends App with BaseExecutionContext {
 
   DataBaseProvider
-  MockServerProvider.startServer()
+  MockServerProvider
 
   val user = Long.MaxValue
 
