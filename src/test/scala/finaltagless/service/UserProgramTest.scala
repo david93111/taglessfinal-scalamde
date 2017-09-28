@@ -18,7 +18,7 @@ class UserProgramTest extends BaseTest {
 
   val dataBaseInterpreter = new UserDBInterpreter
 
-  val futureInterpreter = new UserTaskInterpreter
+  val taskInterpreter = new UserTaskInterpreter
 
   val externalServiceInterpreter = new UserExternalInterpreter
 
@@ -27,7 +27,7 @@ class UserProgramTest extends BaseTest {
     "No encontrar el usuario al usar FutureInterpreter" in {
       import monix.execution.Scheduler.Implicits.global
 
-      val taskService: UserProgram[Task] = new UserProgram(futureInterpreter)
+      val taskService: UserProgram[Task] = new UserProgram(taskInterpreter)
       val task: Task[User] = taskService.addPoints(1, 10)
 
       whenReady(task.runAsync.failed) { _ => assert(true) }
